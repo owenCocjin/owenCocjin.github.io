@@ -41,7 +41,12 @@ body {
 0 0 10px white,
 0 0 21px white;
 	font-size:10vw;
+	text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;
 	animation-name:fuzz-fade;
 	animation-duration:6s;
-	text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;
+}
+
+.noselect{
+	-webkit-user-select:none;
+	-moz-user-select:none;
 }
