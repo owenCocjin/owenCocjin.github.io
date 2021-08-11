@@ -1,0 +1,47 @@
+@keyframes fuzz-fade {
+	0% {text-shadow:0px 0px 0px black;color:black;}
+	4.99% {text-shadow:0px 0px 0px black;color:black;}
+	5%    {text-shadow:0px 5px 40px #FF6EC7;}
+	5.99% {text-shadow:0px 5px 40px #FF6EC7;}
+	6%    {text-shadow:0px 0px 0px black;color:black;}
+
+	10.99% {text-shadow:0px 0px 0px black;color:black;}
+	11%    {text-shadow:0px 5px 40px #FF6EC7;}
+	11.99% {text-shadow:0px 5px 40px #FF6EC7;}
+	12%    {text-shadow:0px 0px 0px black;color:black;}
+
+	13.99% {text-shadow:0px 0px 0px black;color:black;}
+	14%    {text-shadow:0px 5px 40px #FF6EC7;}
+	14.99% {text-shadow:0px 5px 40px #FF6EC7;}
+	15%    {text-shadow:0px 0px 0px black;color:black;}
+	25% {text-shadow:0px 0px 0px black;color:black;}
+
+	95%    {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;}
+	95.99% {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;}
+	96%    {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7}
+	96.99% {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7}
+	97%    {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;}
+
+	98%    {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;}
+	98.99% {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;}
+	99%    {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7}
+	99.99% {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7}
+	100%   {text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;}
+}
+
+body {
+	background-color: black;
+}
+
+#title{
+	padding-top:10px;
+	text-align:center;
+	color:#FFFFFF;
+	text-shadow:0 0 7px white,
+0 0 10px white,
+0 0 21px white;
+	font-size:10vw;
+	animation-name:fuzz-fade;
+	animation-duration:6s;
+	text-shadow:0 0 4px white,0px 5px 10px #FF6EC7,0px 5px 23px #FF6EC7,0px 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7;
+}
