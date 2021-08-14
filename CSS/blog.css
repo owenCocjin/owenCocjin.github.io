@@ -1,0 +1,119 @@
+@import "animate.css";
+
+body {
+	background-color: black;
+	font-family:"monospace";
+}
+
+p{
+	padding:0;
+	margin:0;
+}
+
+footer{
+	padding:0;
+	margin:50px 0 0 0;
+}
+
+a{
+	text-decoration:none;
+	color:white;
+}
+
+img{
+	max-width:500px;
+	max-height:500px;
+	width:auto;
+	height:auto;
+}
+.imgsub{
+	font-size:17px;
+	color:white;
+	font-style:italic;
+	padding:10px 20px;
+}
+.image{
+	max-width:500px;
+	width:auto;
+	margin:5px 40px;
+	text-align:center;
+	border:solid 2px white;
+	padding:8px;
+	border-radius:0 0 15px 15px;
+}
+
+.menu_item{
+	color:white;
+	border:solid 2px white;
+	font-size:20px;
+	width:1px;
+	text-decoration:none;
+	transition:0.3s;
+	padding:3px 10px;
+	margin:0 0 0 15px;
+	font-weight:bold;
+}
+.menu_item:hover{
+	box-shadow:5px 5px grey;
+}
+
+.homelink{
+	padding:0;
+	margin:0;
+	text-decoration:none;
+	color:white;
+}
+
+.paragraph{
+	padding:0;
+	margin:20px 0 0 0;
+	opacity:0;
+}
+
+.subtitle{
+	font-size:40px;
+	color:white;
+	padding:0;
+	margin:0;
+}
+
+.content{
+	font-size:20px;
+	color:white;
+	padding:0;
+	margin:0 15px;
+}
+.content::first-letter{
+	margin:0 0 0 20px;
+}
+
+.blog_title{
+	padding:0;
+	margin:0;
+	padding-top:30px;
+	text-align:center;
+	color:#FFFFFF;
+	font-size:80px;
+	animation-name:fade-in;
+	animation-duration:3s;
+	text-shadow:0 0 5px white,
+	0 0 9px white,
+	0 5px 10px #ff6ec7,
+	0 5px 23px #ff6ec7,
+	0 5px 37px #ff6ec7,
+	0 5px 76px #ff6ec7,
+	0 5px 100px #ff6ec7,
+	0 5px 150px #ff6ec7,
+	0 5px 200px #ff6ec7;
+}
+
+.code{
+	background-color:grey;
+	padding:0 10px;
+}
+
+.fader{
+	animation-name:fade-in;
+	animation-duration:2s;
+	animation-fill-mode:forwards;
+}
