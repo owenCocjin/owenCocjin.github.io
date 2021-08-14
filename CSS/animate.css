@@ -39,10 +39,25 @@
 @keyframes fade-in-black{
 	0% {opacity:0;}
 	25% {opacity:0;}
-	100% {opacity:0.75;}
+	90% {opacity:0.75;}
+	100% {opacity:0.9;}
 }
 
 @keyframes fade-in{
 	0% {opacity:0;}
+	100% {opacity:1;}
+}
+
+@keyframes blink-twice{
+	0% {opacity:1;}
+
+	79.99% {opacity:1;}
+	80% {opacity:0;}
+	80.99% {opacity:0;}
+	81% {opacity:1;}
+
+	98.99% {opacity:1;}
+	99% {opacity:0;}
+	99.99% {opacity:0;}
 	100% {opacity:1;}
 }
