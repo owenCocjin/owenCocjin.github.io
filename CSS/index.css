@@ -14,6 +14,20 @@ table{
 	width:100%;
 	display:flex;
 	justify-content:center;
+	opacity:1;
+	animation-name:fade-in-black;
+	animation-duration:6s;
+}
+
+hr{
+	color:white;
+	background-color:white;
+	width:80%;
+	height:3px;
+	position:absolute;
+	left:10%;
+	padding:0;
+	margin:0;
 }
 
 #title{
@@ -41,7 +55,6 @@ table{
 	box-shadow:0 0 5px white,
 	0 10px 23px #1f51ff,
 	0 10px 76px #1f51ff;
-	opacity:1;
 }
 
 .blog_area{
@@ -50,9 +63,6 @@ table{
 	padding:10px 15px;
 	margin:20px 0;
 	width:40vw;
-	opacity:0.75;
-	animation-name:fade-in-black;
-	animation-duration:6s;
 	transition:0.3s;
 }
 .blog_title{
