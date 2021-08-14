@@ -31,7 +31,7 @@
 		</div>
 		<div class="paragraph">
 			<p class="subtitle">Exploration:</p>
-			<p class="content">WE am presented with a voting page. For what? We will never know. Anyways, we can start looking around, trying to determine if the site is using a CMS or has some version of anything displayed. Nothing. So we go back to the login page and try some arbitrary values (namely '0'). All of them show the same error: Voter ID not found.</p>
+			<p class="content">We are presented with a voting page. For what? We will never know. Anyways, we can start looking around, trying to determine if the site is using a CMS or has some version of anything displayed. Nothing. So we go back to the login page and try some arbitrary values (namely '0'). All of them show the same error: Voter ID not found.</p>
 	 		<p class="content">Next, we try some good 'ol SQL injection: <span class="code">0'OR '1'='1</span>. To our surprise we get an "Incorrect password" error! This means the page is vulnerable to an SQL injection! What exactly the injection is? I'm not sure, but after a very looong session of trial and many errors, we realize the page title is quite specific: "Voting System in PHP". I then get the genius idea to check Exploit DB for an SQL injection against "Voting System in PHP". We're plesantly presented with a couple results, one of which is exactly what we're looking for! <a href="#ref_1">[1]</a></p>
 		</div>
 		<div class="paragraph">
