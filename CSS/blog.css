@@ -26,6 +26,26 @@ img{
 	width:auto;
 	height:auto;
 }
+
+hr{
+	height:0px;
+	color:white;
+	background-color:white;
+	width:96%;
+	padding:0;
+	margin:20px 0;
+	left:2%;
+	position:relative;
+}
+
+#tldr{
+	font-size:60px;
+	opacity:0;
+	animation-name:blink-twice;
+	animation-duration:2s;
+	animation-fill-mode:forwards;
+}
+
 .imgsub{
 	font-size:17px;
 	color:white;
@@ -42,6 +62,10 @@ img{
 	border:solid 2px white;
 	padding:8px;
 	border-radius:0 0 15px 15px;
+}
+
+.link{
+	text-decoration:underline;
 }
 
 .menu_item{
