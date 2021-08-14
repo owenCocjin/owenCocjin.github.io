@@ -2,3 +2,6 @@
 	-webkit-user-select:none;
 	-moz-user-select:none;
 }
+.wordwrap{
+	overflow-wrap:break-word;
+}
