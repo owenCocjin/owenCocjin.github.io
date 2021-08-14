@@ -6,11 +6,11 @@ function blink(title){
 }  //blink()
 function blinkOff(e){
 	e.classList.remove("home_title");
-	// e.style.color="black";
+	e.style.color="black";
 }  //blinkOff()
 function blinkOn(e){
 	e.classList.add("home_title");
-	// e.style.color="white";
+	e.style.color="white";
 }  //blinkOn()
 
 //Random title flicker on click
