@@ -5,10 +5,15 @@ body {
 	font-family:"monospace";
 }
 
-
 a{
 	text-decoration:none;
 	color:white;
+}
+
+table{
+	width:100%;
+	display:flex;
+	justify-content:center;
 }
 
 #title{
@@ -18,12 +23,6 @@ a{
 	font-size:100px;
 	animation-name:fuzz-fade;
 	animation-duration:6s;
-}
-
-.menu_table{
-	width:100%;
-	display:flex;
-	justify-content:center;
 }
 
 .home_title{
