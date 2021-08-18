@@ -17,7 +17,7 @@
 			<div id="menu">
 				<a href="/index.html" class="menu_item">Home</a>
 				<a href="/Blogs/TLDR/htb_love.html" class="menu_item">TLDR</a>
-				<a href="/Blogs.index.html" class="menu_item">All Blogs</a>
+				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
 				<hr>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 		<div class="paragraph">
 			<p class="subtitle">Exploration:</p>
 			<p class="content">We are presented with a voting page. For what? We will never know. Anyways, we can start looking around, trying to determine if the site is using a CMS or has some version of anything displayed. Nothing. So we go back to the login page and try some arbitrary values (namely '0'). All of them show the same error: Voter ID not found.</p>
-	 		<p class="content">Next, we try some good 'ol SQL injection: <span class="code">0'OR '1'='1</span>. To our surprise we get an "Incorrect password" error! This means the page is vulnerable to an SQL injection! What exactly the injection is? I'm not sure, but after a very looong session of trial and many errors, we realize the page title is quite specific: "Voting System in PHP". I then get the genius idea to check Exploit DB for an SQL injection against "Voting System in PHP". We're plesantly presented with a couple results, one of which is exactly what we're looking for! <a href="#ref_1">[1]</a></p>
+	 		<p class="content">Next, we try some good 'ol SQL injection: <span class="code">0'OR '1'='1</span>. To our surprise we get an "Incorrect password" error! This means the page is vulnerable to an SQL injection! What exactly the injection is? I'm not sure, but after a very looong session of trial and many errors, we realize the page title is quite specific: "Voting System in PHP". I then get the genius idea to check Exploit DB for an SQL injection against "Voting System in PHP". We're plesantly presented with a couple results, one of which is exactly what we're looking for! <a href="#ref_1" class="link">[1]</a></p>
 		</div>
 		<div class="paragraph">
 			<p class="subtitle">Hacking the Login:</p>
@@ -54,7 +54,7 @@
 		</div>
 		<div class="paragraph">
 			<p class="subtitle">Getting User:</p>
-			<p class="content">We can directly access our file which brings us a web shell, with the GET key being "miked". Web shells are kinda crapy though. We can get a reverse shell going with a PowerShell one-liner <a href="#ref_2">[2]</a>. Once we have a better shell we can comfortably find the flag file at "C:\Users\Phoebe\Desktop\user.txt"</p>
+			<p class="content">We can directly access our file which brings us a web shell, with the GET key being "miked". Web shells are kinda crapy though. We can get a reverse shell going with a PowerShell one-liner <a href="#ref_2" class="link">[2]</a>. Once we have a better shell we can comfortably find the flag file at "C:\Users\Phoebe\Desktop\user.txt"</p>
 			<div class="image">
 				<img src="./Pics/user.png">
 				<p class="imgsub">Location of user.txt file (No spoilers!)</p>
@@ -73,14 +73,14 @@
 		</br>
 		</br>
 		</br>
-		<div class="paragraph">
+		<div class="paragraph res_list">
 			<p class="subtitle">Resources:</p>
 			<p class="content">
-				[1] <a id="ref_2" href="https://www.exploit-db.com/exploits/49843" class="menu_item" target="_blank">Exploit DB SQL Injection [EXTERNAL]</a>
+				<a id="ref_2" href="https://www.exploit-db.com/exploits/49843" class="menu_item" target="_blank">Exploit DB SQL Injection</a>&nbsp<b>[EXTERNAL]</b>
 			</p>
 			</br>
 			<p class="content">
-				[2] <a id="ref_1" href="/Blogs/resources#rshell_ref1" class="menu_item" target="_blank">PowerShell One-Liner</a>
+				<a id="ref_1" href="/Blogs/resources.html#rshell_powershell_oneliner" class="menu_item" target="_blank">PowerShell One-Liner</a>
 			</p>
 		</div>
 	</div>
