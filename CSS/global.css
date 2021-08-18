@@ -1,7 +1,8 @@
+html{
+	overflow-wrap:break-word;
+}
+
 .noselect{
 	-webkit-user-select:none;
 	-moz-user-select:none;
-}
-.wordwrap{
-	overflow-wrap:break-word;
 }

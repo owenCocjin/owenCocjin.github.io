@@ -1,13 +1,13 @@
 @import "animate.css";
 
 body {
-	background-color: black;
+	background-color: #0f0f0f;
 	font-family:"monospace";
 }
 
 a{
 	text-decoration:none;
-	color:white;
+	color:#ebebeb;
 }
 
 table{
@@ -20,8 +20,8 @@ table{
 }
 
 hr{
-	color:white;
-	background-color:white;
+	color:#ebebeb;
+	background-color:#ebebeb;
 	width:80%;
 	height:3px;
 	position:absolute;
@@ -33,7 +33,7 @@ hr{
 #title{
 	padding-top:30px;
 	text-align:center;
-	color:#FFFFFF;
+	color:#ffffff;
 	font-size:100px;
 	animation-name:fuzz-fade;
 	animation-duration:6s;
@@ -58,7 +58,7 @@ hr{
 }
 
 .blog_area{
-	border:solid 3px white;
+	border:solid 3px #ebebeb;
 	border-radius:25px;
 	padding:10px 15px;
 	margin:20px 0;
@@ -68,7 +68,7 @@ hr{
 .blog_title{
 	padding:0;
 	margin:0;
-	color:white;
+	color:#ebebeb;
 	text-align:center;
 	font-size:50px;
 	font-weight:bold;
@@ -76,7 +76,7 @@ hr{
 .blog_sample{
 	padding:0;
 	margin:0;
-	color:white;
+	color:#ebebeb;
 	font-size:30px;
 	text-align:center;
 }

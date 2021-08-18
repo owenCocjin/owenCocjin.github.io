@@ -1,20 +1,20 @@
 @keyframes fuzz-fade{
-	0% {text-shadow:0px 0px 0px black;color:black;}
-	4.99% {text-shadow:0px 0px 0px black;color:black;}
+	0% {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
+	4.99% {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
 	5%    {text-shadow:0px 5px 40px #ff6ec7;}
 	5.99% {text-shadow:0px 5px 40px #ff6ec7;}
-	6%    {text-shadow:0px 0px 0px black;color:black;}
+	6%    {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
 
-	10.99% {text-shadow:0px 0px 0px black;color:black;}
+	10.99% {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
 	11%    {text-shadow:0px 5px 40px #ff6ec7;}
 	11.99% {text-shadow:0px 5px 40px #ff6ec7;}
-	12%    {text-shadow:0px 0px 0px black;color:black;}
+	12%    {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
 
-	13.99% {text-shadow:0px 0px 0px black;color:black;}
+	13.99% {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
 	14%    {text-shadow:0px 5px 40px #ff6ec7;}
 	14.99% {text-shadow:0px 5px 40px #ff6ec7;}
-	15%    {text-shadow:0px 0px 0px black;color:black;}
-	25% {text-shadow:0px 0px 0px black;color:black;}
+	15%    {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
+	25% {text-shadow:0px 0px 0px #0f0f0f;color:#0f0f0f;}
 
 	95%    {text-shadow:0 0 5px white,0 0 9px white,0 5px 10px #ff6ec7,0 5px 23px #ff6ec7,0 5px 37px #ff6ec7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7,0 5px 150px #ff6ec7,0 5px 200px #ff6ec7;}
 	95.99% {text-shadow:0 0 5px white,0 0 9px white,0 5px 10px #ff6ec7,0 5px 23px #ff6ec7,0 5px 37px #ff6ec7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7,0 5px 150px #ff6ec7,0 5px 200px #ff6ec7;}
@@ -27,13 +27,6 @@
 	99%    {text-shadow:0 0 5px white,0px 5px 10px #ff6ec7,0px 5px 23px #ff6ec7}
 	99.99% {text-shadow:0 0 5px white,0px 5px 10px #ff6ec7,0px 5px 23px #ff6ec7}
 	100%   {text-shadow:0 0 5px white,0 0 9px white,0 5px 10px #ff6ec7,0 5px 23px #ff6ec7,0 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7,0 5px 150px #ff6ec7,0 5px 200px #ff6ec7;}
-}
-
-@keyframes fuzz-in{
-	0% {text-shadow:0 0 0 black;
-	color:black;}
-	100% {text-shadow:0 0 5px white,0 0 9px white,0 5px 10px #ff6ec7,0 5px 23px #ff6ec7,0 5px 37px #FF6EC7,0 5px 76px #ff6ec7,0 5px 100px #ff6ec7,0 5px 150px #ff6ec7,0 5px 200px #ff6ec7;
-	color:white;}
 }
 
 @keyframes fade-in-black{
@@ -53,11 +46,11 @@
 
 	79.99% {opacity:1;}
 	80% {opacity:0;}
-	80.99% {opacity:0;}
-	81% {opacity:1;}
+	81.99% {opacity:0;}
+	82% {opacity:1;}
 
-	98.99% {opacity:1;}
-	99% {opacity:0;}
+	97.99% {opacity:1;}
+	98% {opacity:0;}
 	99.99% {opacity:0;}
 	100% {opacity:1;}
 }

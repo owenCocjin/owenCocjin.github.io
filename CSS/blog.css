@@ -1,7 +1,10 @@
 @import "animate.css";
+html{
+	color:#ebebeb;
+}
 
 body {
-	background-color: black;
+	background-color: #0f0f0f;
 	font-family:"monospace";
 }
 
@@ -17,20 +20,19 @@ footer{
 
 a{
 	text-decoration:none;
-	color:white;
+	color:#ebebeb;
 }
 
 img{
 	max-width:100%;
 	max-height:100%;
-	width:auto;
+	width:100%;
 	height:auto;
 }
 
 hr{
 	height:0px;
-	color:white;
-	background-color:white;
+	background-color:#ebebeb;
 	width:96%;
 	padding:0;
 	margin:20px 0;
@@ -48,29 +50,44 @@ hr{
 
 .imgsub{
 	font-size:17px;
-	color:white;
 	font-style:italic;
 	padding:10px 20px;
 }
 .image{
 	max-width:500px;
-	max-height:500px;
-	width:auto;
+	max-height:50%;
+	width:50%;
 	height:auto;
-	margin:5px 40px;
+	margin:15px 40px;
 	text-align:center;
-	border:solid 2px white;
+	border:solid 2px #ebebeb;
 	padding:8px;
 	border-radius:0 0 15px 15px;
+	transition:0.3s;
+}
+
+.imgzoom{
+	box-shadow:0 0 10px #ebebeb;
+}
+.imgzoom:hover{
+	box-shadow:none;
+	max-width:1000px;
+	width:90%;
+	max-height:1000px;
 }
 
 .link{
-	text-decoration:underline;
+	background:#7083a1;
+	transition:0.3s;
+	border-radius:10px;
+}
+.link:hover{
+	border-radius:0px;
 }
 
 .menu_item{
-	color:white;
-	border:solid 2px white;
+	border:solid 2px #ebebeb;
+	color:#ebebeb;
 	font-size:20px;
 	width:1px;
 	text-decoration:none;
@@ -87,7 +104,6 @@ hr{
 	padding:0;
 	margin:0;
 	text-decoration:none;
-	color:white;
 }
 
 .paragraph{
@@ -98,16 +114,14 @@ hr{
 
 .subtitle{
 	font-size:40px;
-	color:white;
 	padding:0;
-	margin:0;
+	margin:20px 0 0 0;
 }
 
 .content{
 	font-size:20px;
-	color:white;
 	padding:0;
-	margin:0 15px;
+	margin:0 15px 10px 15px;
 }
 .content::first-letter{
 	margin:0 0 0 20px;
@@ -118,8 +132,8 @@ hr{
 	margin:0;
 	padding-top:30px;
 	text-align:center;
-	color:#FFFFFF;
 	font-size:80px;
+	color:white;
 	animation-name:fade-in;
 	animation-duration:3s;
 	text-shadow:0 0 5px white,
@@ -134,7 +148,7 @@ hr{
 }
 
 .code{
-	background-color:grey;
+	background-color:#6e6e6e;
 	padding:0 10px;
 }
 
@@ -142,4 +156,25 @@ hr{
 	animation-name:fade-in;
 	animation-duration:2s;
 	animation-fill-mode:forwards;
+}
+
+.code_block{
+	position:relative;
+	background-color:#6e6e6e;
+	left:5%;
+}
+
+.subtext{
+	display:flex;
+	justify-content:center;
+}
+.subtext-content{
+	color:#ebebeb;
+	text-shadow:none;
+	width:60%;
+}
+
+.nolink{
+	opacity:0.5;
+	pointer-events:none;
 }
