@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>- TLDR - HTB: Lame</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/CSS/blog.css">
+	<link rel="stylesheet" href="/CSS/global.css">
+</head>
+<body class="noselect">
+	<h1 id="title" class="blog_title">
+		<a href="/index.html" class="homelink">
+			HTB: Lame<br><a href="/Blogs/TLDR/index.html"><span id="tldr">- TLDR -</span></a>
+		</a>
+	</h1>
+	<div id="big_wrapper" class="wordwrap">
+		<div class="paragraph">
+			<div id="menu">
+				<a href="/index.html" class="menu_item">Home</a>
+				<a href="/Blogs/HTB_Lame/htb_lame.html" class="menu_item">FULL</a>
+				<a href="/Blogs/TLDR/index.html" class="menu_item">All TLDRs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
+				<hr>
+			</div>
+		</div>
+
+<div class="paragraph">
+	<p class="subtitle">Intro:</p>
+<p class="content">This was a straightforward box that is a great beginner challenge. We skip the privilege escalation by using an exploit that gives us a root shell (because the command was run by root).</p>
+</div>
+<div class="paragraph">
+	<p class="subtitle">Recon:</p>
+<p class="content">The classic <span class="code">nmap -sT -sV -A -v &lt;ip&gt;</span> shows us the open ports: 21, 22, 139, 445. Upon inspection the FTP server is vulnerable to an RCE, but has been patched by the server.</p>
+</div>
+<div class="paragraph">
+	<p class="subtitle">Getting User & Root:</p>
+<p class="content">Getting the server's OS version tells us it's running "Samba 3.0.20-debian", which is vulnerable to a code execution attack. Use either Metasploit's exploit or a custom one <a href="/Blogs/resources.html#custom_htb_lame_exploit" class="link">[Custom exploit]</a>, to get a reverse shell. The shell given is root, meaning we get both user flag (/home/makis/user.txt) and root flag (/root/root.txt) all in one shot!</p>
+</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Last edit: 2021.08.24</p>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript" src="/JS/blog.js"></script>
+</footer>
+</html>
