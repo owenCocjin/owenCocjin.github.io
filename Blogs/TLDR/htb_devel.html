@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>- TLDR - HTB: Devel</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/CSS/blog.css">
+	<link rel="stylesheet" href="/CSS/global.css">
+</head>
+<body class="noselect">
+	<h1 id="title" class="blog_title">
+		<a href="/index.html" class="homelink">
+			HTB: Devel<br><a href="/Blogs/TLDR/index.html"><span id="tldr">- TLDR -</span></a>
+		</a>
+	</h1>
+	<div id="big_wrapper" class="wordwrap">
+		<div class="paragraph">
+			<div id="menu">
+				<a href="/index.html" class="menu_item">Home</a>
+				<a href="/Blogs/HTB_Devel/htb_devel.html" class="menu_item">FULL</a>
+				<a href="/Blogs/TLDR/index.html" class="menu_item">All TLDRs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
+				<hr>
+			</div>
+		</div>
+
+<div class="paragraph">
+	<p class="subtitle">Intro:</p>
+<p class="content">This was a great lil box! If you want to learn about kernel mode LPEs, studying the exploits used to solve this box is a great way to do so.</p>
+</div>
+<div class="paragraph">
+	<p class="subtitle">Recon:</p>
+<p class="content"><span class="code">nmap -sT -sV -A -v &lt;ip&gt;</span> shows us an FTP server, as well as a webserver.</p>
+<p class="content">The webserver simply has a picture of a welcome sign that links to Microsoft's IIS homepage. The FTP server can be logged into to reveal a ".htm" file and a png named "welcome". This indicates to us that the FTP server is in the root directory of the web server. This is confirmed by uploading a text file and browsing to it: <span class="code">echo 'Hello, World!' &gt; hello.txt; ftp &lt;ip&gt; &lt;&lt;&lt; $(echo -e 'anonymous\n\nput hello.txt')</span></p>
+</div>
+<div class="paragraph">
+	<p class="subtitle">Getting A Shell:</p>
+<p class="content">We can get a shell by uploading an ASPX reverse shell through the FTP server. The one I had the only luck with was one found on github <a href="#ref_1" class="link">[1]</a>. Start a netcat listener and navigate to the shell from the browser: <span class="code">nc -lvp 3184</span>.</p>
+</div>
+<div class="paragraph">
+	<p class="subtitle">Getting Root:</p>
+<p class="content">Listing "C:\Users reveals a user "babis", but we don't have access to his home directory. Instead, we can immediately get to System using an LPE. Run <span class="code">systeminfo</span> to get the current OS version. Googling exploits for this version lands us on an exploit from Exploit DB, that does an LPE against the "MS11-046" security bulletin. Download the exploit and compile it using: <span class="code">i686-w64-mingw32-gcc &lt;exploit file&gt; -o exploit.exe -l ws2_32</span>. Upload it to the server (I just used the FTP server), and execute it. The FTP root is found at "C:\inetpub\wwwroot".</p>
+<p class="content">Once the code is done executing, run <span class="code">whoami</span> to confirm we are now "nt authority/system". <b>NOTE:</b> The exploit doesn't show any output until you exit the shell. Grab the flags:</p>
+<p class="content"><ul class="content"><li><span class="code">type c:\Users\babis\Desktop\user.txt.txt</span> (Yeah there's a typo in the actual flag, not the command.)</li><li><span class="code">type c:\Users\Administrator\Desktop\root.txt</span></li></ul></p>
+</div>
+<br><br><br><div class="paragraph res_list">
+	<p class="subtitle">Resources:</p>
+<p class="content"><a id="ref_1" href="/Blogs/resources.html#rshell_aspx" class="menu_item">ASPX Reverse Shell</a></p><br>
+</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Last edit: 2021.08.25</p>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript" src="/JS/blog.js"></script>
+</footer>
+</html>
