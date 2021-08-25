@@ -40,6 +40,27 @@ hr{
 	position:relative;
 }
 
+ul, ol{
+	position:relative;
+	width:84%;
+	left:8%;
+  counter-reset: list;
+}
+li{
+	padding-top:10px;
+}
+/* Stolen from https://stackoverflow.com/questions/1632005/ordered-list-html-lower-alpha-with-right-parentheses */
+ol > li {
+  list-style: none;
+  position: relative;
+}
+ol > li:before {
+  counter-increment: list;
+  content: counter(list) ") ";
+  position: absolute;
+  left: -2em;
+}
+
 #tldr{
 	font-size:60px;
 	opacity:0;
