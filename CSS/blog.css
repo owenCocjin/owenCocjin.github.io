@@ -199,3 +199,7 @@ ol > li:before {
 	opacity:0.5;
 	pointer-events:none;
 }
+
+.res_list{
+	margin-bottom:30px;
+}
