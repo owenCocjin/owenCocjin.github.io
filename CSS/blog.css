@@ -1,12 +1,4 @@
 @import "animate.css";
-html{
-	color:#ebebeb;
-}
-
-body {
-	background-color: #0f0f0f;
-	font-family:"monospace";
-}
 
 p{
 	padding:0;
@@ -62,7 +54,7 @@ ol > li:before {
 }
 
 #tldr{
-	font-size:60px;
+	font-size:6vw;
 	opacity:0;
 	animation-name:blink-twice;
 	animation-duration:2s;
@@ -70,10 +62,11 @@ ol > li:before {
 }
 
 .imgsub{
-	font-size:17px;
+	font-size:1.7vw;
 	font-style:italic;
 	padding:10px 20px;
 }
+
 .image{
 	max-width:500px;
 	max-height:50%;
@@ -109,7 +102,7 @@ ol > li:before {
 .menu_item{
 	border:solid 2px #ebebeb;
 	color:#ebebeb;
-	font-size:20px;
+	font-size:2vw;
 	width:1px;
 	text-decoration:none;
 	transition:0.3s;
@@ -120,6 +113,7 @@ ol > li:before {
 .menu_item:hover{
 	box-shadow:5px 5px grey;
 }
+
 
 .homelink{
 	padding:0;
@@ -134,13 +128,13 @@ ol > li:before {
 }
 
 .subtitle{
-	font-size:40px;
+	font-size:4vw;
 	padding:0;
 	margin:20px 0 0 0;
 }
 
 .content{
-	font-size:20px;
+	font-size:2vw;
 	padding:0;
 	margin:0 15px 10px 15px;
 }
@@ -153,7 +147,7 @@ ol > li:before {
 	margin:0;
 	padding-top:30px;
 	text-align:center;
-	font-size:80px;
+	font-size:8vw;
 	color:white;
 	animation-name:fade-in;
 	animation-duration:3s;
@@ -202,4 +196,24 @@ ol > li:before {
 
 .res_list{
 	margin-bottom:30px;
+}
+
+@media screen and (min-width:1500px){
+	.blog_title{
+		font-size:120px;
+	}
+}
+@media screen and (min-width:1000px){
+	.menu_item{
+		font-size:20px;
+	}
+	.subtitle{
+		font-size:40px;
+	}
+	.content{
+		font-size:20px;
+	}
+	.imgsub{
+		font-size:17px;
+	}
 }
