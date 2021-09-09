@@ -31,7 +31,7 @@
 <div class="paragraph">
 	<p None class="subtitle">Recon:</p>
 <p class="content">The standard nmap scan applies (once we actually find the machine): <span class="code">nmap -sT -sV -A &lt;target ip&gt;</span>. We get ports 21, 22, and 80 open on 192.168.56.111. The webpage shows a default Apache2 page. Nothing much here.</p>
-<div class="image"><span class="image_wrapper"><img src="./Pics/apache_main.png"></span><p class="imgsub">Default Apache2 page. You just need to trust that this isn't a screenshot from Google!</p></div>
+<div class="image"><img src="./Pics/apache_main.png"><p class="imgsub">Default Apache2 page. You just need to trust that this isn't a screenshot from Google!</p></div>
 <p class="content">FTP port allows anonymous login. There's a "pub" folder with nothing in it.</p>
 <div class="image"><img src="./Pics/ftp_login.png"><p class="imgsub">Anonymous login success on our target.</p></div>
 <p class="content">SSH is never the answer, and this holds true for this box.</p>

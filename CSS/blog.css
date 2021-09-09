@@ -129,9 +129,7 @@ ol > li:before {
 	font-size:3vw;  /*1.7vw*/
 	font-style:italic;
 	padding:10px 20px;
-}
-.image_wrapper{
-	overflow:hidden;
+	overflow:scroll;
 }
 .imgzoom{
 	box-shadow:0 0 10px #ebebeb;
