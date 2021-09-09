@@ -1,6 +1,5 @@
 @import "animate.css";
 
-
 a{
 	text-decoration:none;
 	color:#ebebeb;
@@ -38,24 +37,6 @@ hr{
 	animation-duration:6s;
 }
 
-.home_title{
-	text-shadow:0 0 5px white,
-	0 0 9px white,
-	0 5px 10px #ff6ec7,
-	0 5px 23px #ff6ec7,
-	0 5px 37px #ff6ec7,
-	0 5px 76px #ff6ec7,
-	0 5px 100px #ff6ec7,
-	0 5px 150px #ff6ec7,
-	0 5px 200px #ff6ec7;
-}
-
-.neon_tint:hover{
-	box-shadow:0 0 5px white,
-	0 10px 23px #1f51ff,
-	0 10px 76px #1f51ff;
-}
-
 .blog_area{
 	border:solid 3px #ebebeb;
 	border-radius:25px;
@@ -85,6 +66,37 @@ hr{
 	text-align:center;
 }
 
+.home_title{
+	text-shadow:0 0 5px white,
+	0 0 9px white,
+	0 5px 10px #ff6ec7,
+	0 5px 23px #ff6ec7,
+	0 5px 37px #ff6ec7,
+	0 5px 76px #ff6ec7,
+	0 5px 100px #ff6ec7,
+	0 5px 150px #ff6ec7,
+	0 5px 200px #ff6ec7;
+}
+
+.menu_item{
+	border:solid 2px #ebebeb;
+	color:#ebebeb;
+	width:1px;
+	text-decoration:none;
+	transition:0.3s;
+	padding:3px 10px;
+	font-weight:bold;
+}
+.menu_item:hover{
+	box-shadow:5px 5px grey;
+}
+
+.neon_tint:hover{
+	box-shadow:0 0 5px white,
+	0 10px 23px #1f51ff,
+	0 10px 76px #1f51ff;
+}
+
 .subtext{
 	display:flex;
 	justify-content:center;
@@ -100,19 +112,6 @@ hr{
 	margin:0 7px;
 	text-align:center;
 	font-size:3.7vw;
-}
-
-.menu_item{
-	border:solid 2px #ebebeb;
-	color:#ebebeb;
-	width:1px;
-	text-decoration:none;
-	transition:0.3s;
-	padding:3px 10px;
-	font-weight:bold;
-}
-.menu_item:hover{
-	box-shadow:5px 5px grey;
 }
 
 @media screen and (min-width:1500px){
