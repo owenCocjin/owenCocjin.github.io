@@ -215,6 +215,9 @@ ol > li:before {
 
 /*Set to px once above a certain size, vw otherwise*/
 @media screen and (min-width:700px){
+	#menu{
+		display:block;
+	}
 	.blog_title{
 		font-size:88px;
 	}
@@ -226,7 +229,6 @@ ol > li:before {
 	}
 	.menu_item{
 		font-size:22px;
-		overflow:hidden;
 	}
 	.subtitle{
 		font-size:44px;

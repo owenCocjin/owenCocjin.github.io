@@ -18,16 +18,15 @@ var menubutton=menu.getElementsByTagName("a")
 var menucount=menubutton.length;  //Only get number of buttons
 for(i=0;i<menucount-1;++i){
 	menubutton[i].after(vert_br.cloneNode(true));
-	menubutton[i].style.fontSize="0";
-	menubutton[i].style.border="none";
-	menubutton[i].style.display="inline-block";
-	menubutton[i].style.width="auto";
 }//for()
-menubutton[menucount-1].style.fontSize="0";
-menubutton[menucount-1].style.border="none";
-menubutton[menucount-1].style.display="inline-block";
-menubutton[menucount-1].style.width="auto";
-
+if (screen.width<=699){
+	for (i=0;i<menucount;++i){
+		menubutton[i].style.fontSize="0";
+		menubutton[i].style.border="none";
+		menubutton[i].style.display="inline-block";
+		menubutton[i].style.width="auto";
+	}//for()
+}//if()
 //Set menu_button
 var menutoggle=false;  //Where "true" means menu is open
 var menu_button=document.getElementById("menu_button");
@@ -45,7 +44,7 @@ function childHi(i){
 		// menu.children[i].style.display="inline";
 		menubutton[i].style.fontSize="4vw";
 		menubutton[i].style.border="solid 2px #ebebeb";
-		menubutton[i].style.marginBottom="0.2em";
+		menubutton[i].style.marginBottom="0.4em";
 		// menu.children[i].pointerEvents="visible";
 	}, 80*i);
 }  //childHi()
