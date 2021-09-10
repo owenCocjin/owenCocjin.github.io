@@ -57,6 +57,13 @@ ol > li:before {
 	max-width:none;
 }
 
+#menu{
+	transition-duration:0.5s;
+}
+#menu_button{
+	display:none;
+}
+
 #tldr{
 	font-size:8vw; /*6vw*/
 	opacity:0;
@@ -128,7 +135,8 @@ ol > li:before {
 	padding:8px;
 	border-radius:0 0 15px 15px;
 	transition:0.3s;
-	overflow:scroll;
+	/* overflow:scroll kills border radius & padding */
+	/* overflow:scroll; */
 }
 .imgsub{
 	font-size:3vw;  /*1.7vw*/
@@ -161,7 +169,7 @@ ol > li:before {
 	width:1px;
 	text-decoration:none;
 	transition:0.3s;
-	padding:3px 10px;
+	padding:0 0.5em 0.3em 0.5em;
 	margin:0 0 0 15px;
 	font-weight:bold;
 }
@@ -200,9 +208,9 @@ ol > li:before {
 	text-shadow:none;
 	width:60%;
 }
-
 .vert_br{
-	display:none;
+	margin:0;
+	padding:0;
 }
 
 /*Set to px once above a certain size, vw otherwise*/
@@ -210,20 +218,31 @@ ol > li:before {
 	.blog_title{
 		font-size:88px;
 	}
-	.menu_item{
-		font-size:22px;
-	}
-	.subtitle{
-		font-size:44px;
-	}
 	.content{
 		font-size:22px;
 	}
 	.imgsub{
 		font-size:19px;
 	}
-	/*Create lateral menu instead of menu bar*/
+	.menu_item{
+		font-size:22px;
+		overflow:hidden;
+	}
+	.subtitle{
+		font-size:44px;
+	}
 	.vert_br{
-		display:auto;
+		display:none;
+	}
+}
+/*Only under 699px width; Not 700px for hysteresis*/
+@media screen and (max-width:699px){
+	#menu{
+		max-height:100%;
+		opacity:1;
+		padding:1em 0 0 1.5em;
+	}
+	#menu_button{
+		display:inline;
 	}
 }
