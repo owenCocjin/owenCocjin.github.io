@@ -30,7 +30,7 @@
 <div class="paragraph">
 	<p None class="subtitle">Recon:</p>
 <p class="content">Start with an nmap to find the target IP as well as open ports: <span class="code">nmap -sT -sV -A -v &lt;target range&gt;</span>. Ports 21, 22, and 80 are open on our target.</p>
-<p class="content">Checking the webpage shows the default Apache2 "It works!" page. We can find directories and files with gobuster: <span class="code">gobuster dir -x .php,.html,.txt,.cgi -u &lt;target ip&gt; -w &lt;wordlist&gt;</span>. We see some standard inaccessible directories (js, css, etc...), as well as robots.txt and some related files (robots.php, seo.html, etc...). Trying to access any of these files returns a suspicious sentence: "You are not a search engine! You can't read my robots.txt!". This doesn't seem like a standard error message, so we will pursue it and try to access the robots.txt file.</p>
+<p class="content">Checking the webpage shows the default Apache2 "It works!" page. We can find directories and files with gobuster: <span class="code">gobuster dir -x .php,.html,.txt,.cgi -u &lt;target ip&gt; -w &lt;wordlist&gt;</span>. We see some standard inaccessible directories (JS, CSS, etc...), as well as robots.txt and some related files (robots.php, seo.html, etc...). Trying to access any of these files returns a suspicious sentence: "You are not a search engine! You can't read my robots.txt!". This doesn't seem like a standard error message, so we will pursue it and try to access the robots.txt file.</p>
 <p class="content">We can briefly check the FTP server, which allows anonymous logins. There are no contents other than an empty "pub" directory. However, we are able to write to this folder, which we'll keep in our back pocket.</p>
 </div>
 <div class="paragraph">
@@ -39,7 +39,7 @@
 </div>
 <div class="paragraph">
 	<p None class="subtitle">Finding the LFI:</p>
-<p class="content">Accessing this secret directory brings us a page explaining a DNS Zone Transfer Attack. There are also two links that each change the page's language: "english" and "spanish". Clicking either link sends a request to the current page with the url parameter of <span class="code">lang="en.php"</span>, for english in this case. Suspecting an LFI attack, we can try changing the "en.php" to "/etc/passwd". This allows us to dump the passwd file's contents!</p>
+<p class="content">Accessing this secret directory brings us a page explaining a DNS Zone Transfer Attack. There are also two links that each change the page's language: "english" and "spanish". Clicking either link sends a request to the current page with the url parameter of <span class="code">lang="en.php"</span>, for English in this case. Suspecting an LFI attack, we can try changing the "en.php" to "/etc/passwd". This allows us to dump the passwd file's contents!</p>
 </div>
 <div class="paragraph">
 	<p None class="subtitle">Getting A Shell:</p>
