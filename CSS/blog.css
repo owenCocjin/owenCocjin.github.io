@@ -124,12 +124,12 @@ ol > li:before {
 	padding:8px;
 	border-radius:0 0 15px 15px;
 	transition:0.3s;
+	overflow:scroll;
 }
 .imgsub{
 	font-size:3vw;  /*1.7vw*/
 	font-style:italic;
 	padding:10px 20px;
-	overflow:scroll;
 }
 .imgzoom{
 	box-shadow:0 0 10px #ebebeb;
