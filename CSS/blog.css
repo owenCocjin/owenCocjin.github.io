@@ -53,6 +53,10 @@ ol > li:before {
   left: -2em;
 }
 
+#big_wrapper :first-child{
+	max-width:none;
+}
+
 #tldr{
 	font-size:8vw; /*6vw*/
 	opacity:0;
@@ -172,8 +176,9 @@ ol > li:before {
 
 .paragraph{
 	padding:0;
-	margin:20px 0 0 0;
+	margin:20px auto 0 auto;
 	opacity:0;
+	max-width:1000px;
 }
 
 .res_list{
@@ -196,6 +201,10 @@ ol > li:before {
 	width:60%;
 }
 
+.vert_br{
+	display:none;
+}
+
 /*Set to px once above a certain size, vw otherwise*/
 @media screen and (min-width:700px){
 	.blog_title{
@@ -212,5 +221,9 @@ ol > li:before {
 	}
 	.imgsub{
 		font-size:19px;
+	}
+	/*Create lateral menu instead of menu bar*/
+	.vert_br{
+		display:auto;
 	}
 }
