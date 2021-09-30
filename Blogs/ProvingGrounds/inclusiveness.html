@@ -19,7 +19,7 @@
 			<div id="menu">
 				<a href="/index.html" class="menu_item">Home</a>
 				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
-				<a href="/Blogs/TLDR/pg_inclusiveness.html" class="menu_item">TLDR</a>
+				<a href="/Blogs/TLDR/ProvingGrounds/inclusiveness.html" class="menu_item">TLDR</a>
 				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
 			</div>
 			<hr>
@@ -32,41 +32,41 @@
 <div class="paragraph">
 	<p None class="subtitle">Recon:</p>
 <p class="content">The standard nmap scan applies (once we actually find the machine): <span class="code">nmap -sT -sV -A &lt;target ip&gt;</span>. We get ports 21, 22, and 80 open on 192.168.56.111. The webpage shows a default Apache2 page. Nothing much here.</p>
-<div class="image"><img src="./Pics/apache_main.png"><p class="imgsub">Default Apache2 page. You just need to trust that this isn't a screenshot from Google!</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/apache_main.png"><p class="imgsub">Default Apache2 page. You just need to trust that this isn't a screenshot from Google!</p></div>
 <p class="content">FTP port allows anonymous login. There's a "pub" folder with nothing in it.</p>
-<div class="image"><img src="./Pics/ftp_login.png"><p class="imgsub">Anonymous login success on our target.</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/ftp_login.png"><p class="imgsub">Anonymous login success on our target.</p></div>
 <p class="content">SSH is never the answer, and this holds true for this box.</p>
 <p class="content">Going back to the website, we can try gobuster, which reveals what seems to be common files and directories: <span class="code">gobuster dir -x .php,.html,.txt,.cgi -u &lt;target ip&gt; -w &lt;dictionary&gt;</span>. When we try going to "robots.txt" or any related page (seo.html, valid-robots.txt, etc...) we are greeted with an empty page that has a single line on it: "You are not a search engine! You can't read my robots.txt!". Challenge accepted >:)</p>
-<div class="image"><img src="./Pics/robots_only.jpg"><p class="imgsub">Robots only!</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/robots_only.jpg"><p class="imgsub">Robots only!</p></div>
 </div>
 <div class="paragraph">
 	<p None class="subtitle">Getting A Shell:</p>
 <p class="content">While hoping I'm not jumping into a rabbit hole, I determine what we need to do. Robots.txt is used by webcrawlers to allow/deny access to specific paths on the site. In our case, we aren't allowed to see this robots.txt file because we aren't a robot! The way a server identifies you is through the "User-Agent" heading sent by your browser. The user-agent tells the server what browser version, device, and even OS the client is using. What we need to do is send a request with a user-agent that belongs to a bot. My first attempt at this via curl was a fail: <span class="code">curl -L -H 'Googlebot/2.1 (+http://www.google.com/bot.html)' &lt;target ip&gt;</span>. I was served the familiar rejection line from above. It was odd that this didn't work because it was the first user-agent my brute-force script used, which DID work. I'll chalk it up to a fat-fingered typo.</p>
 <p class="content">To brute-force this page, I wrote a Python script that sends GET requests to "robots.txt" until the return doesn't contain the rejection string from above <a href="#ref_1" class="link">[1]</a>. Through dumb stupidity, the first user-agent tried, worked! Which one was it? <b>THE SAME ONE I TRIED IN THE CURL REQUEST!!!</b> It's fine, just more coding practice.</p>
-<div class="image imgzoom"><img src="./Pics/successful_attack.png"><p class="imgsub">My Python script showing a successful request</p></div>
+<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/successful_attack.png"><p class="imgsub">My Python script showing a successful request</p></div>
 <p class="content">The robots.txt file reveals a directory: "/secret_information/". Navigating to it reveals a simple page describing a DNS Zone Transfer Attack. We can also see two links: "english" and "spanish" respectively. Clicking them changes the language of the page, but does so by passing a url param to the current page: <span class="code">lang="en.php"</span>.</p>
-<div class="image imgzoom"><img src="./Pics/dns_zone_transfer.png"><p class="imgsub">The super secret directory!</p></div>
+<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/dns_zone_transfer.png"><p class="imgsub">The super secret directory!</p></div>
 <p class="content">So to change the language, the site requests a php page. This tells us that:</p>
 <p class="content"><ul class="content"><li>The site can (probably) run php.</li><li>We might be able to do a LFI attack.</li></ul></p>
 <p class="content">We can try going to "/etc/passwd/" instead of "en.php" and lo and behold, the site dumps the /etc/passwd file!</p>
-<div class="image imgzoom"><img src="./Pics/passwd.png"><p class="imgsub">/etc/passwd being exposed via LFI</p></div>
+<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/passwd.png"><p class="imgsub">/etc/passwd being exposed via LFI</p></div>
 <p class="content">If you recall, we had access to an FTP server via anonymous login. We can log back in and upload a php reverse shell, which we can run through the LFI we now have.</p>
-<div class="image imgzoom"><img src="./Pics/uploaded_php.png"><p class="imgsub">Uploading our php reverse shell</p></div>
-<div class="image"><img src="./Pics/reverse_shell_success.png"><p class="imgsub">A successful reverse shell!</p></div>
+<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/uploaded_php.png"><p class="imgsub">Uploading our php reverse shell</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/reverse_shell_success.png"><p class="imgsub">A successful reverse shell!</p></div>
 </div>
 <div class="paragraph">
 	<p None class="subtitle">Getting Root:</p>
 <p class="content">We can check "/home" for users and find "tom". Checking his home directory reveals a super discrete script and source code combo named "rootshell" and "rootshell.c". What we can only assume we need to do is exploit this script to get a root shell. First I'll extract the C code to my local machine for easier analysis.</p>
-<div class="image imgzoom"><img src="./Pics/exfiltrate_rootshell.png"><p class="imgsub">Converting the source code to base64 for exfiltration</p></div>
+<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/exfiltrate_rootshell.png"><p class="imgsub">Converting the source code to base64 for exfiltration</p></div>
 <p class="content">The code is very simple and involves checking the current user's name via "whoami" command. If it matched "tom", we get an EUID root shell (as the owner of the file is root).</p>
-<div class="image"><img src="./Pics/rootshell.c.png"><p class="imgsub">Source code of rootshell.c</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/rootshell.c.png"><p class="imgsub">Source code of rootshell.c</p></div>
 <p class="content">To exploit this script, we need to hijack the "whoami" command.
 For ease, get a better shell: <span class="code">python -c 'import pty;pty.spawn("/bin/bash")'</span>. Next we'll move to a writeable directory, "/tmp", and create a file "whoami". In this file, all we need to do is print "tom". This can all be achieved in a Bash one-liner: <span class="code">echo $'&#x23;!/bin/bash
 echo "tom"' &gt; ./whoami; chmod +x ./whoami</span>. Before we can try the code again, we need to add /tmp to our PATH environment variable so the code knows where to find our hijacked script: <span class="code">export PATH=/tmp:${PATH}</span>.</p>
-<div class="image imgzoom"><img src="./Pics/spoofed_path.png"><p class="imgsub">Exporting /tmp to PATH</p></div>
+<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/spoofed_path.png"><p class="imgsub">Exporting /tmp to PATH</p></div>
 <p class="content">We're done! Now we can go back to tom's home dir, run the script, and get the flag!</p>
-<div class="image"><img src="./Pics/rootshell_success.png"><p class="imgsub">Running the script after setting up the command hijack, resulting in a successful root shell</p></div>
-<div class="image"><img src="./Pics/flag.png"><p class="imgsub">The flag (but blurred; no cheating)!</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/rootshell_success.png"><p class="imgsub">Running the script after setting up the command hijack, resulting in a successful root shell</p></div>
+<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Inclusiveness_p/flag.png"><p class="imgsub">The flag (but blurred; no cheating)!</p></div>
 </div>
 <br><br><br><div class="paragraph res_list">
 	<p class="subtitle">Resources:</p>

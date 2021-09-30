@@ -17,7 +17,7 @@
 			<span id="menu_button" class="menu_item">...</span>
 			<div id="menu">
 				<a href="/index.html" class="menu_item">Home</a>
-				<a href="/Blogs/TLDR/htb_devel.html" class="menu_item">TLDR</a>
+				<a href="/Blogs/TLDR/HackTheBox/devel.html" class="menu_item">TLDR</a>
 				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
 				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
 				<hr>
@@ -37,7 +37,7 @@
 <div class="paragraph">
 	<p class="subtitle">NETting a shell:</p>
 <p class="content">Since we are able to upload files, we can probably try uploading a reverse shell. But what language should our shell be written in? Well PHP doesn't work (because I've tested it), and by googling a bit because we aren't all web devs, we find we can run ASP code, as well as other languages such as C#. In an attempt to do everything as manually as possible, I see how hard it might be to write an ASP rshell manually. Nope. Next I try msfvenom to generate an rshell, but was unsuccessful in getting one to work. I would consistently get error 500 from the server, and to this day I'm not too sure why none of them worked.</p>
-<div class="image imgzoom"><img src="./Pics/ftp.png"><p class="imgsub">The FTP root, cluttered by my tests and fails</p></div>
+<div class="image imgzoom"><img src="/Blogs/HackTheBox/Pics/Devel_p/ftp.png"><p class="imgsub">The FTP root, cluttered by my tests and fails</p></div>
 <p class="content">Finally, I caved and stole an aspx reverse shell off github <a href="#ref_1" class="link">[1]</a>. This worked like a charm though so I can't complain. Upload the shell via the FTP server and start a netcat listener: <span class="code">nc -lvp 3184</span>. <b>REMEMBER</b> to edit the address and port in the aspx file. Unfortunately the reverse shell doesn't land us the user flag, so we need to do a little bit more...</p>
 </div>
 <div class="paragraph">
@@ -45,23 +45,23 @@
 <p class="content">Looking around, we can don't see too much. We can move to "C:\Users" and find a user "babis" who's home directory we don't have access to. This means we either need to find credentials somewhere, or we can go straight to system. There are two reasons we're doing the latter:</p>
 <p class="content"><ol class="content"><li>A quick look around shows nothing of interest; No databases, secret special folders that might hide credentials, nothing.</li><li>We hadn't come across anything hinting at the idea of stealing login details. This thought process is more geared towards the fact that this is a challenge and I'd advise against this because it'll build a bad habit of breaking the fourth wall O_o!</li></ol></p>
 <p class="content">We can do a quick <span class="code">systeminfo</span> to see what we're working with. We find the OS version is "6.1.7600 N/A Build 7600". A google search of the version alone brings us an exploit against the "MS11-046" bulletin <a href="#ref_2" class="link">[2]</a>. It's a LPE, but the exploit is written in C (Boo hoo no Python!).</p>
-<div class="image imgzoom"><img src="./Pics/systeminfo.png"><p class="imgsub">"systeminfo" showing us the OS name & version</p></div>
+<div class="image imgzoom"><img src="/Blogs/HackTheBox/Pics/Devel_p/systeminfo.png"><p class="imgsub">"systeminfo" showing us the OS name & version</p></div>
 <p class="content">There is no compiler on the target which means we need to compile it on our machine, which is a Linux box. How can we compile a Windows binary on a Linux box? MinGW-w64 that's how! It took me a decent amount of research to find this but here we go. Install mingw however you do on your system. Then compile it using: <span class="code">i686-w64-mingw32-gcc &lt;exploit file&gt; -o exploit.exe -l ws2_32</span>. This is the command breakdown:</p>
 <p class="content"><ul class="content"><li><span class="code">i686</span>: Means we're compiling for a 32-bit processor (duh).</li><li><span class="code">w64-mingw32</span>: The program name. The "w64" is just the latest mingw version (as opposed to "mingw"). This is consistent across all commands.</li><li><span class="code">gcc</span>: The compiler we're using to compile the code. Here we're compiling C code, hence "gcc". There are other tools, such as "objdump" or "strings". Try playing around with them!</li><li><span class="code">-o exploit.exe</span>: The output file.</li><li><span class="code">-l ws2_32</span>: Link the "ws2_32" library. The exploit itself tells us how to compile the file, but you can also determine which libraries are required by the "#pragma comment" line in the code.</li></ul></p>
 <p class="content">Final step is to upload the compiled exe (I just used the FTP server because it's already there) and execute it: <span class="code">exploit.exe</span>. Now you won't see anything happen (it only prints when you exit the shell), but if you try "whoami" you'll see the beautiful "nt authority/system" popup on a new line. Go get those flags:</p>
 <p class="content"><ul class="content"><li><span class="code">type c:\Users\babis\Desktop\user.txt.txt</span> (Yeah there's a typo in the actual flag, not the command.)</li><li><span class="code">type c:\Users\Administrator\Desktop\root.txt</span></li></ul></p>
-<div class="image"><img src="./Pics/exploit.png"><p class="imgsub">Showing off the exploit, as well as the output after exiting the shell</p></div>
+<div class="image"><img src="/Blogs/HackTheBox/Pics/Devel_p/exploit.png"><p class="imgsub">Showing off the exploit, as well as the output after exiting the shell</p></div>
 </div>
 <div class="paragraph">
 	<p class="subtitle">Understanding MS11-046:</p>
 <p class="content">Just so we aren't blindly using exploit, let's try to understand this, at least slightly.</p>
 <p class="content">This is an LPE exploit that abuses an issue in the Ancillary Function Driver "afd.sys". It's a kernel mode driver that is responsible for allowing proper functionality of the Winsock TCP/IP protocol <a href="#ref_3" class="link">[3]</a>. The exploit works because the driver doesn't properly validate input passed from user mode, meaning a specifically-crafted input will allow us to up our privileges.</p>
 <p class="content">The way our exploit does this is by starting an arbitrary socket connection using Winsock, which will invoke "afd.sys".</p>
-<div class="image imgzoom"><img src="./Pics/socket.png"><p class="imgsub">Connecting to closed socket</p></div>
+<div class="image imgzoom"><img src="/Blogs/HackTheBox/Pics/Devel_p/socket.png"><p class="imgsub">Connecting to closed socket</p></div>
 <p class="content">Next it generates shellcode that will steal the AFD application's access token. The shellcode will then copy the token to our proces, effectively turning us into System.</p>
-<div class="image imgzoom"><img src="./Pics/shellcode.png"><p class="imgsub">Creating the shellcode</p></div>
+<div class="image imgzoom"><img src="/Blogs/HackTheBox/Pics/Devel_p/shellcode.png"><p class="imgsub">Creating the shellcode</p></div>
 <p class="content">Finally, it sends the shellcode, upgrades us to System, then starts a shell as System <a href="#ref_4" class="link">[4]</a>.</p>
-<div class="image imgzoom"><img src="./Pics/sendexploit.png"><p class="imgsub">Part of exploit execution. See <a href="#ref_4" class="link">[4]</a> for detailed explanation</p></div>
+<div class="image imgzoom"><img src="/Blogs/HackTheBox/Pics/Devel_p/sendexploit.png"><p class="imgsub">Part of exploit execution. See <a href="#ref_4" class="link">[4]</a> for detailed explanation</p></div>
 </div>
 <br><br><br><div class="paragraph res_list">
 	<p class="subtitle">Resources:</p>
