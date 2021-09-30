@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Proving Grounds: Funbox2</title>
+	<title>Proving Grounds: Funbox 2</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/CSS/blog.css">
@@ -9,16 +9,16 @@
 <body class="noselect">
 	<h1 id="title" class="blog_title">
 		<a href="/index.html" class="homelink">
-			Proving Grounds: Funbox2
+			Proving Grounds: Funbox 2
 		</a>
-
+		
 	</h1>
 	<div id="big_wrapper" class="wordwrap">
 		<div class="paragraph">
 			<span id="menu_button" class="menu_item">...</span>
 			<div id="menu">
 				<a href="/index.html" class="menu_item">Home</a>
-				<a href="/Blogs/TLDR/ProvingGrounds/funbox2.html" class="menu_item">TLDR</a>
+				<a href="/Blogs/TLDR/funbox2.html" class="menu_item">TLDR</a>
 				<a href="/Blogs/index.html" class="menu_item">All Blogs</a>
 				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
 			</div>
@@ -53,21 +53,21 @@ done</span></div><br class="code_block_br">
 &nbsp&nbspecho&nbsp-n&nbsp"$(cut&nbsp-d&nbsp':'&nbsp-f&nbsp2&nbsp&lt;&lt;&lt;&nbsp${i}):&nbsp"<br>
 &nbsp&nbspgrep&nbsp$(cut&nbsp-d&nbsp'*'&nbsp-f&nbsp14&nbsp&lt;&lt;&lt;&nbsp${i})&nbspwholehashes.txt&nbsp|&nbspcut&nbsp-d&nbsp':'&nbsp-f&nbsp4<br>
 done</span></div><br class="code_block_br">
-<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Funbox2_p/hashcat_ran.png"><p class="imgsub">Hashcat completed session. Note the "Recovered" line is 2/3</p></div>
-<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Funbox2_p/hashcat_script_results.png"><p class="imgsub">Matching Hashcat's results with out hashes</p></div>
+<div class="image imgzoom"><img src="./Pics/hashcat_ran.png"><p class="imgsub">Hashcat completed session. Note the "Recovered" line is 2/3</p></div>
+<div class="image imgzoom"><img src="./Pics/hashcat_script_results.png"><p class="imgsub">Matching Hashcat's results with out hashes</p></div>
 <p class="content">This shows us that:</p>
 <ul class="content"><li>cathrine.zip <- catwoman</li><li>tom.zip <- iubire</li></ul>
 <p class="content">An alternative to hashcat is John the Ripper, which is slightly easier to use in this case. We will use the "wholehashes.txt" file generated in the first command: <span class="code">john --wordlist=&lt;wordlist&gt; wholehashes.txt</span>. To print our results: <span class="code">john --show wholehashes.txt</span>. The string after the first colon is the password.</p>
-<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Funbox2_p/john_results.png"><p class="imgsub">John's somewhat discrete results</p></div>
+<div class="image imgzoom"><img src="./Pics/john_results.png"><p class="imgsub">John's somewhat discrete results</p></div>
 <p class="content">Finally, we can unzip Cathrine and Tom's respective private keys and SSH into the box! I added each person's name as extension to distinguish each user's key. Cathrine doesn't even exist, so it turns out our theory about Tom's zip permissions might have been valid! Logging in using <span class="code">ssh tom@&lt;ip&gt; -i id_rsa.tom</span> yields us access to the box and one bug closer to the goal!</p>
 </div>
 <div class="paragraph">
 	<p None class="subtitle">Getting Root:</p>
 <p class="content">The first thing to check are sudo permissions. The issue we face is that we don't have tom's password to allow us to run sudo. Looking around his home directory, we see ".bash_history" and ".mysql_history". Neither are redirected to "/dev/null", and both have content. Bash history has nothing useful, but MySQL has captured some credentials. Specifically, it's captured Tom adding his login credentials into the database! We can try looking around the db which is running on local port 3306, but there is nothing of interest in it.</p>
-<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Funbox2_p/tom_sql_history.png"><p class="imgsub">Exposing Tom's insecure history (Last line)</p></div>
-<div class="image imgzoom"><img src="/Blogs/ProvingGrounds/Pics/Funbox2_p/empty_table.png"><p class="imgsub">A sad, empty SQL table</p></div>
+<div class="image"><img src="./Pics/tom_sql_history.png"><p class="imgsub">Exposing Tom's insecure history (Last line)</p></div>
+<div class="image imgzoom"><img src="./Pics/empty_table.png"><p class="imgsub">A sad, empty SQL table</p></div>
 <p class="content">Thanks to recycled credentials, we can check Tom's sudo permissions and what do you know? We have permissions for all commands! A simple <span class="code">sudo bash</span> gives us a root shell and a pretty sleek root flag at "/root/flag.txt"!</p>
-<div class="image"><img src="/Blogs/ProvingGrounds/Pics/Funbox2_p/sudo_shell_flag.png"><p class="imgsub">Going straight to root's flag!</p></div>
+<div class="image"><img src="./Pics/sudo_shell_flag.png"><p class="imgsub">Going straight to root's flag!</p></div>
 </div>
 <br><br><br><div class="paragraph res_list">
 	<p class="subtitle">Resources:</p>
