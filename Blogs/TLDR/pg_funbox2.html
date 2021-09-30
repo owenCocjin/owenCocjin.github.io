@@ -1,0 +1,63 @@
+<html>
+<head>
+	<title>- TLDR - Proving Grounds: Funbox 2</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="/CSS/blog.css">
+	<link rel="stylesheet" href="/CSS/global.css">
+</head>
+<body class="noselect">
+	<h1 id="title" class="blog_title">
+		<a href="/index.html" class="homelink">
+			Proving Grounds: Funbox 2<br><a href="/Blogs/TLDR/index.html"><span id="tldr">- TLDR -</span></a>
+		</a>
+	</h1>
+	<div id="big_wrapper" class="wordwrap">
+		<div class="paragraph">
+			<span id="menu_button" class="menu_item">...</span>
+			<div id="menu">
+				<a href="/index.html" class="menu_item">Home</a>
+				<a href="/Blogs/PG_Funbox2/pg_funbox2.html" class="menu_item">FULL</a>
+				<a href="/Blogs/TLDR/index.html" class="menu_item">All TLDRs</a>
+				<a href="/Blogs/resources.html" class="menu_item">Resources</a>
+			</div>
+			<hr>
+		</div>
+
+<div class="paragraph">
+	<p None class="subtitle">Intro: </p>
+<p class="content">A quick and simple boot2root box with plenty of rabbit holes. Get in through anonymous FTP login, then cracking some zip passwords. Root is trivial.</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Recon: </p>
+<p class="content">Starting with an nmap: <span class="code">nmap -sT -A -v -n &lt;ip&gt; -p -</span>. We get ports: [21,22,80].</p>
+<p class="content">Checking out the web server, we get the "Apache2 It Works!" default page, and nothing else. We'll continue to the FTP server.</p>
+<p class="content">The FTP server allows anonymous login, and has multiple zip files following the naming convention: "&ltusername&gt.zip".</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Cracking Passwords & Getting User: </p>
+<p class="content">We can download all the zip files with <span class="code">mget *.zip</span>. Trying to extract any of them prompts us for a password for file "id_rsa". If we can crack the password to one of these files we can use the ssh key to login as that user.</p>
+<p class="content">Firstly, we extract all the hashes to a file "wholehashes.txt" using zip2john:</p>
+<div class="content code_block_wrapper"><span class="code_block">for&nbspz&nbspin&nbsp$(ls&nbsp*zip);&nbspdo<br>
+&nbsp&nbspzip2john&nbsp${z}&nbsp&gt;&gt;&nbspwholehashes.txt<br>
+done</span></div><br class="code_block_br">
+<p class="content">Now we have a file of just the hashes ("hashes.txt"), and the whole zip2john result ("wholehashes.txt"). We can crack the passwords in 2 different ways. For the sake of simplicity, we'll just use John. Crack the hashes using: <span class="code">john --wordlist=&lt;wordlist&gt; wholehashes.txt</span>. One this is done we can show our results: <span class="code">john --show wholehashes.txt</span>. We see that we've cracked 2 passwords:</p>
+<ul class="content"><li>cathrine.zip <- catwoman</li><li>tom.zip <- iubire</li></ul>
+<p class="content">After we unzip both tom.zip and cathrine.zip (and renaming them "id_rsa.<username>"), we can try logging in using Cathrine's key, with no success. Tom on the other hand does work: <span class="code">ssh tom@&lt;ip&gt; -i id_rsa.tom</span>. We're in!</p>
+</div>
+<div class="paragraph">
+	<p None class="subtitle">Getting Root: </p>
+<p class="content">To get root, we can first try <span class="code">sudo -l</span>, but are blocked by a password prompt. We'll need to do some digging around to find Tom's password...</p>
+<p class="content">We can check our home directory and see that ".bash_history" and ".mysql_history" are both valid files (and aren't redirected to /dev/null). There's nothing interesting in .bash_history, but .mysql_history is a different story. It's captured Tom adding some credentials to the local MySQL database. Hoping for recycled creds, we try checking for sudo permission again, but with our newfound password. This is a success, and we see that Tom has sudo access to everything! Simply start a new bash shell and we got root: <span class="code">sudo bash</span>.</p>
+</div>
+		<br>
+		<div class="paragraph">
+			<hr>
+			<p class="content">Last edit: 2021.09.30</p>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript" src="/JS/blog.js"></script>
+</footer>
+</html>
