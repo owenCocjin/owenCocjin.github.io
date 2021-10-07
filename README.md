@@ -12,3 +12,4 @@
 - Fix menu on mobile
 	- Some buttons overflow
 - ~~Restructure site (directories of blogs n such)~~
+- Prevent the logbox from resizing when changing log data font
