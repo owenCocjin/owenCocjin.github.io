@@ -1,6 +1,6 @@
 //Add statistics monitor
 var pxl=document.createElement("img");
-pxl.src="http://155.138.149.180:7431"+window.location.pathname;
+pxl.src="https://dsrv001.ddns.net:7431"+window.location.pathname;
 pxl.width=0;
 pxl.height=0;
 pxl.style.position="fixed";
