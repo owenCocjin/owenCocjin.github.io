@@ -1,0 +1,91 @@
+@keyframe light_fade_out{
+	from{text-shadow:"0 0 10px #ffffff,0 0 7px #ffffff 0 0 3px #ffffff";}
+	to{text-shadow:none;}
+}
+
+span{
+	color:white;
+}
+table{
+	position:relative;
+	width:80%;
+	left:10%;
+}
+td{
+	width:50%;
+	padding:0;
+	margin:0;
+	text-align:center;
+	position:relative;
+}
+#logbox{
+	border:solid white 2px;
+	position:relative;
+	width:80%;
+	height:40%;
+	margin:0 auto;
+	font-size:2em;
+	padding:0.5em;
+	overflow:hidden;
+}
+#clear_logs{
+	width:82%;
+}
+#clear_logs:hover{
+	background:#a33333;
+}
+#connect{
+	padding:0.5em 0 0 0;
+	margin:0 1em 0 0;
+	display:inline-block;
+}
+#status_circle{
+	border:solid #424242 2px;
+	background:#e8940e;
+	height:1em;
+	width:1em;
+	margin:0;
+	padding:0;
+	display:inline-block;
+	border-radius:100%;
+	box-shadow:0 0 10px #e8940e;
+}
+.arrow{
+	width:40%;
+	margin:0;
+	padding:0;
+	display:inline-block;
+	background:#404040;
+	transition:0.3s;
+}
+.arrow:hover{
+	box-shadow:none;
+	background:#6f6f6f;
+	color:#000000;
+}
+.arrow_l{
+	margin:0 1% 0 0;
+}
+.arrow_r{
+	margin:0 0 0 1%;
+}
+.logdata{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	color:#a1a1a1;
+}
+.logtext{
+	animation-name:light_fade_out;
+	animation-duration:1s;
+}
+.setting_item{
+	width:80%;
+	margin:0.5em 0;
+	padding:0;
+	text-align:center;
+	display:inline-block;
+}
+.setting_item:hover{
+	box-shadow:none;
+}
